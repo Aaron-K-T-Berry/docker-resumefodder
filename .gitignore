@@ -1,0 +1,9 @@
+# IDE
+.vscode
+
+# ResumeFodder
+resume.json
+exports
+
+# Docker
+docker-compose.yml

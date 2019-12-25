@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  resumefodder:
+    build: .
+    image: aaron-k-t-berry/resumefodder:latest
+    command: init ./exports/resume.json
+    volumes:
+      - ./exports:/go/src/gitlab.com/steve-perkins/ResumeFodder-cli/exports

@@ -1,0 +1,39 @@
+---
+# https://taskfile.dev/#/usage
+version: "2"
+
+env:
+  DOCKER_TAGS: aaron-k-t-berry/resumefodder
+  EXPORT_PATH: ./exports
+  COMPOSE_EXAMPLE_PATH: ./docker-compose.example.yml
+  COMPOSE_PATH: ./docker-compose.yml
+
+tasks:
+  setup-dev:
+    cmds:
+      - cp $COMPOSE_EXAMPLE_PATH $COMPOSE_PATH
+      - mkdir -p $EXPORT_PATH
+    generates:
+      - $EXPORT_PATH
+    status:
+      - test -f $COMPOSE_PATH
+      - test -d $EXPORT_PATH
+
+  clean:
+    cmds:
+      - rm -rf $EXPORT_PATH $COMPOSE_PATH
+
+  build:
+    deps: [setup-dev]
+    cmds:
+      - docker build -t $DOCKER_TAGS .
+
+  build-force:
+    deps: [setup-dev]
+    cmds:
+      - docker build --no-cache -t $DOCKER_TAGS .
+
+  run:
+    deps: [setup-dev]
+    cmds:
+      - docker-compose up
