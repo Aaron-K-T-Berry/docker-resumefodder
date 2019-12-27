@@ -1,14 +1,10 @@
 FROM golang:1.8-alpine
 
-# Add git to container
 RUN apk --no-cache add git
 
-# Get resume fodder package
+# Get and setup resume fodder package
 RUN go get gitlab.com/steve-perkins/ResumeFodder-cli
-
 WORKDIR /go/src/gitlab.com/steve-perkins/ResumeFodder-cli
-
-# Update resume fodder
 RUN git submodule init \
   && git submodule update
 

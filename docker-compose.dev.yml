@@ -3,7 +3,9 @@ version: '3'
 services:
   resumefodder:
     build: .
-    image: aaron-k-t-berry/resumefodder:latest
+    image: aaronktberry/resumefodder:latest
     command: init ./exports/resume.json
+    # command: export exports/resume.json exports/resume.doc templates/standard.xml
+    # command: convert
     volumes:
       - ./exports:/go/src/gitlab.com/steve-perkins/ResumeFodder-cli/exports

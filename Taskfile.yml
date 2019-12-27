@@ -3,9 +3,9 @@
 version: "2"
 
 env:
-  DOCKER_TAGS: aaron-k-t-berry/resumefodder
+  DOCKER_TAGS: aaronktberry/resumefodder
   EXPORT_PATH: ./exports
-  COMPOSE_EXAMPLE_PATH: ./docker-compose.example.yml
+  COMPOSE_EXAMPLE_PATH: ./docker-compose.dev.yml
   COMPOSE_PATH: ./docker-compose.yml
 
 tasks:
