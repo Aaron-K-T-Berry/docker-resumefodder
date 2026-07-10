@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          load: true
+          tags: aaronktberry/resumefodder:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Smoke test - init
+        run: |
+          mkdir -p exports
+          docker run --rm \
+            -v "$PWD/exports:/go/src/gitlab.com/steve-perkins/ResumeFodder-cli/exports" \
+            aaronktberry/resumefodder:test \
+            init ./exports/resume.json
+          test -f exports/resume.json
+
+      - name: Smoke test - export
+        run: |
+          docker run --rm \
+            -v "$PWD/exports:/go/src/gitlab.com/steve-perkins/ResumeFodder-cli/exports" \
+            aaronktberry/resumefodder:test \
+            export exports/resume.json exports/resume.doc templates/standard.xml
+          test -f exports/resume.doc
